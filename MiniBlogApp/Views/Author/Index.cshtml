@@ -1,0 +1,45 @@
+@model IEnumerable<Author>
+
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h1>Authors</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Created</th>
+            <th>Posts</th>
+            <th>Post titles</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var author in Model ?? Enumerable.Empty<MiniBlogApp.Models.Author>())
+{
+    <tr>
+        <td>@(author.FirstName) @(author.LastName)</td>
+        <td>@author.Email</td>
+        <td>@author.CreatedAt.ToString("yyyy-MM-dd")</td>
+        <td>@(author.BlogPosts?.Count ?? 0)</td>
+        <td>
+            @if (author.BlogPosts != null && author.BlogPosts.Any())
+            {
+                <ul>
+                @foreach (var post in author.BlogPosts)
+                {
+                    <li>@(post?.Title ?? "(no title)")</li>
+                }
+                </ul>
+            }
+            else
+            {
+                <span>No posts</span>
+            }
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
