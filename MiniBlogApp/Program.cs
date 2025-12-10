@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MiniBlogApp.Data;
+using MiniBlogApp.Data.Interfaces;
+using MiniBlogApp.Data.Repositories;
+using MiniBlogApp.Services.Implementations;
+using MiniBlogApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 var app = builder.Build();
 
