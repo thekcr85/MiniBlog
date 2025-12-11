@@ -18,12 +18,14 @@ public class RepositoryBase<TEntity>(ApplicationDbContext applicationDbContext, 
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await entities.AddAsync(entity, cancellationToken);
-    }
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
+	}
 
     public void Update(TEntity entity)
     {
         entities.Update(entity);
-    }
+        applicationDbContext.SaveChanges();
+	}
 
     public void Remove(TEntity entity)
     {
