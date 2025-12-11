@@ -1,45 +1,68 @@
-@model IEnumerable<Author>
+@using MiniBlogApp.ViewModels
+@model IEnumerable<AuthorListItemViewModel>
 
 @{
     ViewData["Title"] = "Authors";
 }
 
-<h1>Authors</h1>
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h1>Authors</h1>
+        </div>
+    </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created</th>
-            <th>Posts</th>
-            <th>Post titles</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var author in Model ?? Enumerable.Empty<MiniBlogApp.Models.Author>())
-{
-    <tr>
-        <td>@(author.FirstName) @(author.LastName)</td>
-        <td>@author.Email</td>
-        <td>@author.CreatedAt.ToString("yyyy-MM-dd")</td>
-        <td>@(author.BlogPosts?.Count ?? 0)</td>
-        <td>
-            @if (author.BlogPosts != null && author.BlogPosts.Any())
-            {
-                <ul>
-                @foreach (var post in author.BlogPosts)
-                {
-                    <li>@(post?.Title ?? "(no title)")</li>
-                }
-                </ul>
-            }
-            else
-            {
-                <span>No posts</span>
-            }
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No authors found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Created</th>
+                    <th class="text-center">Posts</th>
+                    <th>Post Titles</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var author in Model)
+        {
+                <tr>
+                    <td><strong>@author.FullName</strong></td>
+                    <td>@author.Email</td>
+                    <td>@author.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td class="text-center">
+                        <span class="badge bg-primary">@author.PostCount</span>
+                    </td>
+                    <td>
+                        @if (author.PostTitles.Any())
+                        {
+                            <ul class="mb-0 ps-3">
+                            @foreach (var title in author.PostTitles)
+                            {
+                                <li>@title</li>
+                            }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No posts</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a href="@Url.Action("Details", "Author", new { id = author.Id })" 
+                           class="btn btn-sm btn-info">View</a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+    }
+</div>
