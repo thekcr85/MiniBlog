@@ -1,0 +1,72 @@
+@model AuthorDetailViewModel
+
+@{
+    ViewData["Title"] = $"{Model.FullName} - Author Details";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>@Model.FullName</h1>
+            <a href="@Url.Action("Index", "Author")" class="btn btn-secondary btn-sm">Back to Authors</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Author Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Email:</strong><br />
+                                <a href="mailto:@Model.Email">@Model.Email</a>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Member Since:</strong><br />
+                                @Model.CreatedAt.ToString("MMMM dd, yyyy")
+                            </p>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Biography))
+                    {
+                        <div class="mb-3">
+                            <strong>Biography:</strong>
+                            <p>@Model.Biography</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Blog Posts (@Model.BlogPosts.Count)</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.BlogPosts.Any())
+                    {
+                        <div class="list-group">
+                        @foreach (var post in Model.BlogPosts)
+                        {
+                            <div class="list-group-item">
+                                <h6 class="mb-1">@post.Title</h6>
+                                <small class="text-muted">Published: @post.PublishedAt.ToString("MMMM dd, yyyy")</small>
+                            </div>
+                        }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">This author has not published any posts yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
