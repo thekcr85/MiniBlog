@@ -58,4 +58,14 @@ public class AuthorService(IAuthorRepository authorRepository) : IAuthorService
 	{
 		return await authorRepository.GetAuthorByEmailAsync(email, cancellationToken);
 	}
+
+	public async Task<IEnumerable<Author>> SearchAuthorsByNameAsync(string searchTerm, CancellationToken cancellationToken = default)
+	{
+		return await authorRepository.SearchAuthorsByNameAsync(searchTerm, cancellationToken);
+	}
+
+	public async Task<IEnumerable<Author>> GetLatestAuthorsAsync(int count = 3, CancellationToken cancellationToken = default)
+	{
+		return await authorRepository.GetLatestAuthorsAsync(count, cancellationToken);
+	}
 }
