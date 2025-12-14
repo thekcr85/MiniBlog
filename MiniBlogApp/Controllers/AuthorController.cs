@@ -80,4 +80,50 @@ public class AuthorController(IAuthorService authorService) : Controller
 		await authorService.CreateAsync(author, cancellationToken);
 		return RedirectToAction(nameof(Index));
 	}
+
+	// GET: Author/Edit/5
+	public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
+	{
+		var author = await authorService.GetByIdAsync(id, cancellationToken);
+		if (author == null)
+		{
+			return NotFound();
+		}
+		var model = new AuthorEditViewModel
+		{
+			Id = author.Id,
+			FirstName = author.FirstName,
+			LastName = author.LastName,
+			Email = author.Email,
+			Biography = author.Biography,
+			CreatedAt = author.CreatedAt
+		};
+		return View(model);
+	}
+
+	// POST: Author/Edit/5
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> Edit(AuthorEditViewModel model, CancellationToken cancellationToken)
+	{
+		if (!ModelState.IsValid)
+		{
+			return View(model);
+		}
+
+		var author = await authorService.GetByIdAsync(model.Id, cancellationToken);
+		if (author == null)
+		{
+			return NotFound();
+		}
+
+		author.FirstName = model.FirstName;
+		author.LastName = model.LastName;
+		author.Email = model.Email;
+		author.Biography = model.Biography;
+
+		await authorService.UpdateAsync(author, cancellationToken);
+
+		return RedirectToAction(nameof(Details), new { id = model.Id });
+	}
 }
