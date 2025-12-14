@@ -17,10 +17,31 @@
         </div>
     </div>
 
+    <!-- Search Form -->
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form asp-action="Search" method="get" class="input-group">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search by name or email..." value="@ViewBag.SearchTerm" />
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+                {
+                    <a href="@Url.Action("Index", "Author")" class="btn btn-outline-secondary">Clear</a>
+                }
+            </form>
+        </div>
+    </div>
+
     @if (Model == null || !Model.Any())
     {
         <div class="alert alert-info">
-            No authors found.
+            @if (string.IsNullOrEmpty(ViewBag.SearchTerm))
+            {
+                <text>No authors found.</text>
+            }
+            else
+            {
+                <text>No authors found for search term: <strong>@ViewBag.SearchTerm</strong></text>
+            }
         </div>
     }
     else
