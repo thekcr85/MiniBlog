@@ -1,14 +1,67 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MiniBlogApp.Models;
+using MiniBlogApp.Services.Interfaces;
+using MiniBlogApp.ViewModels;
+using MiniBlogApp.Data.Interfaces;
 
 namespace MiniBlogApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IAuthorService authorService, IAuthorRepository authorRepository) : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
         {
-            return View();
+            var authors = await authorService.GetLatestAuthorsAsync(3, cancellationToken);
+            var authorListItems = authors.Select(a => new AuthorListItemViewModel
+            {
+                Id = a.Id,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Email = a.Email,
+                CreatedAt = a.CreatedAt,
+                PostCount = a.BlogPosts?.Count ?? 0,
+                PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+            }).ToList();
+
+            return View(authorListItems);
+        }
+
+        public async Task<IActionResult> Search(string searchTerm, CancellationToken cancellationToken = default)
+        {
+            // Get search results
+            var searchResults = new List<AuthorListItemViewModel>();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var authors = await authorService.SearchAuthorsByNameAsync(searchTerm.Trim(), cancellationToken);
+                searchResults = authors.Select(a => new AuthorListItemViewModel
+                {
+                    Id = a.Id,
+                    FirstName = a.FirstName,
+                    LastName = a.LastName,
+                    Email = a.Email,
+                    CreatedAt = a.CreatedAt,
+                    PostCount = a.BlogPosts?.Count ?? 0,
+                    PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+                }).ToList();
+            }
+
+            // Always get latest 3 authors for the sidebar
+            var latestAuthors = await authorService.GetLatestAuthorsAsync(3, cancellationToken);
+            var latestAuthorListItems = latestAuthors.Select(a => new AuthorListItemViewModel
+            {
+                Id = a.Id,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Email = a.Email,
+                CreatedAt = a.CreatedAt,
+                PostCount = a.BlogPosts?.Count ?? 0,
+                PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+            }).ToList();
+
+            // Pass both to view
+            ViewBag.SearchTerm = searchTerm;
+            ViewBag.LatestAuthors = latestAuthorListItems;
+            return View("Index", searchResults);
         }
 
         public IActionResult Privacy()
