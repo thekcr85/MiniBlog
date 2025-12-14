@@ -1,8 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "MiniBlog";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="display-4">MiniBlog</h1>
+            <p class="lead">Simple blogging platform built with ASP.NET Core.</p>
+
+            <div class="mt-4">
+                <a class="btn btn-primary me-2" href="@Url.Action("Index", "Author")">Authors</a>
+                <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Home")">About</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <p class="card-text">Create or manage content on your blog.</p>
+                    <a href="@Url.Action("Create", "Author")" class="btn btn-sm btn-success">Create Author</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
