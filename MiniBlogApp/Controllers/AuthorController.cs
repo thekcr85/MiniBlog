@@ -176,4 +176,28 @@ public class AuthorController(IAuthorService authorService) : Controller
 
 		return RedirectToAction(nameof(Index));
 	}
+
+	// GET: Author/Search
+	public async Task<IActionResult> Search(string searchTerm, CancellationToken cancellationToken)
+	{
+		var authorListItems = new List<AuthorListItemViewModel>();
+
+		if (!string.IsNullOrWhiteSpace(searchTerm))
+		{
+			var authors = await authorService.SearchAuthorsByNameAsync(searchTerm.Trim(), cancellationToken);
+			authorListItems = authors.Select(a => new AuthorListItemViewModel
+			{
+				Id = a.Id,
+				FirstName = a.FirstName,
+				LastName = a.LastName,
+				Email = a.Email,
+				CreatedAt = a.CreatedAt,
+				PostCount = a.BlogPosts?.Count ?? 0,
+				PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+			}).ToList();
+		}
+
+		ViewBag.SearchTerm = searchTerm;
+		return View("Index", authorListItems);
+	}
 }
