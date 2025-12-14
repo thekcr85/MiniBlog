@@ -1,0 +1,41 @@
+@using MiniBlogApp.ViewModels
+@model AuthorDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Author";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Delete Author</h1>
+            <hr />
+
+            <div class="alert alert-warning">
+                Are you sure you want to delete the following author?
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@Model.FullName</dd>
+
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+
+                <dt class="col-sm-3">Member Since</dt>
+                <dd class="col-sm-9">@Model.CreatedAt.ToString("MMMM dd, yyyy")</dd>
+
+                <dt class="col-sm-3">Posts</dt>
+                <dd class="col-sm-9">@Model.PostCount</dd>
+            </dl>
+
+            <form asp-action="DeleteConfirmed" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-danger">Delete Author</button>
+                    <a href="@Url.Action("Details", "Author", new { id = Model.Id })" class="btn btn-secondary ms-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
