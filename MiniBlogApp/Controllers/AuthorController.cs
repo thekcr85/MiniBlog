@@ -126,4 +126,54 @@ public class AuthorController(IAuthorService authorService) : Controller
 
 		return RedirectToAction(nameof(Details), new { id = model.Id });
 	}
+
+	// GET: Author/Delete/5
+	public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+	{
+		var author = await authorService.GetByIdWithPostsAsync(id, cancellationToken);
+		if (author == null)
+		{
+			return NotFound();
+		}
+
+		var model = new AuthorDeleteViewModel
+		{
+			Id = author.Id,
+			FullName = $"{author.FirstName} {author.LastName}",
+			Email = author.Email,
+			CreatedAt = author.CreatedAt,
+			PostCount = author.BlogPosts?.Count ?? 0
+		};
+
+		return View(model);
+	}
+
+	// POST: Author/Delete/5
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> DeleteConfirmed(int id, CancellationToken cancellationToken)
+	{
+		var success = await authorService.DeleteAsync(id, cancellationToken);
+		if (!success)
+		{
+			// Could not delete (not found or constraint). Show error on delete view.
+			ModelState.AddModelError(string.Empty, "Could not delete author.");
+			var author = await authorService.GetByIdWithPostsAsync(id, cancellationToken);
+			if (author == null)
+			{
+				return NotFound();
+			}
+			var model = new AuthorDeleteViewModel
+			{
+				Id = author.Id,
+				FullName = $"{author.FirstName} {author.LastName}",
+				Email = author.Email,
+				CreatedAt = author.CreatedAt,
+				PostCount = author.BlogPosts?.Count ?? 0
+			};
+			return View("Delete", model);
+		}
+
+		return RedirectToAction(nameof(Index));
+	}
 }
