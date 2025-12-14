@@ -66,6 +66,8 @@
                            class="btn btn-sm btn-info">View</a>
                         <a href="@Url.Action("Edit", "Author", new { id = author.Id })" 
                            class="btn btn-sm btn-warning ms-1">Edit</a>
+                        <a href="@Url.Action("Delete", "Author", new { id = author.Id })" 
+                           class="btn btn-sm btn-danger ms-1">Delete</a>
                     </td>
                 </tr>
         }
