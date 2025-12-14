@@ -1,0 +1,78 @@
+/* Minimalist, elegant site overrides */
+:root{
+    --bg: #ffffff;
+    --muted: #6c757d;
+    --accent: #0d6efd; /* bootstrap primary */
+    --card-bg: #fbfcfd;
+}
+
+body{
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    background-color: var(--bg);
+    color: #222;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.main-container{
+    max-width: 980px;
+}
+
+.navbar-brand{
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+.navbar .nav-link{
+    color: var(--muted); 
+    font-weight: 400;
+}
+
+.navbar .nav-link:hover{
+    color: var(--accent);
+}
+
+.card{
+    border: 0;
+    background: var(--card-bg);
+    box-shadow: 0 6px 18px rgba(18, 38, 63, 0.06);
+    border-radius: 10px;
+}
+
+.list-group-item{
+    border: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.footer{
+    margin-top: 60px;
+    background: transparent;
+}
+
+h1.display-4{
+    font-weight: 600;
+}
+
+.btn-primary{
+    background-color: var(--accent);
+    border: none;
+}
+
+.btn-outline-secondary{
+    border-radius: 8px;
+}
+
+.small-muted{
+    color: var(--muted);
+}
+
+/* Keep search input subtle */
+input.form-control{
+    border-radius: 8px;
+    border: 1px solid #e6e9ee;
+}
+
+a.list-group-item-action{
+    color: inherit;
+}
