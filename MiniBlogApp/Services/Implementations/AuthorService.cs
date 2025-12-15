@@ -24,8 +24,7 @@ public class AuthorService(IAuthorRepository authorRepository) : IAuthorService
 
 	public async Task UpdateAsync(Author author, CancellationToken cancellationToken = default)
 	{
-		authorRepository.Update(author);
-		await Task.CompletedTask;
+		await authorRepository.UpdateAsync(author, cancellationToken);
 	}
 
 	public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
@@ -35,7 +34,7 @@ public class AuthorService(IAuthorRepository authorRepository) : IAuthorService
 		{
 			return false;
 		}
-		authorRepository.Remove(author);
+		await authorRepository.RemoveAsync(author, cancellationToken);
 		return true;
 	}
 
