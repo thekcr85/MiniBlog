@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MiniBlogApp.Models;
 using MiniBlogApp.Services.Interfaces;
-using MiniBlogApp.ViewModels;
+using MiniBlogApp.ViewModels.Author;
 
 namespace MiniBlogApp.Controllers;
 
