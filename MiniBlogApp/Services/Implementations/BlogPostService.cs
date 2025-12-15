@@ -31,28 +31,38 @@ public class BlogPostService(IBlogPostRepository blogPostRepository) : IBlogPost
 		return blogPost;
 	}
 
-	public Task UpdateAsync(BlogPost blogPost, CancellationToken cancellationToken = default)
+	public async Task UpdateAsync(BlogPost blogPost, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		if (blogPost == null)
+		{
+			throw new ArgumentNullException(nameof(blogPost), "Blog post cannot be null.");
+		}
+		await blogPostRepository.UpdateAsync(blogPost, cancellationToken);
 	}
 
-	public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+	public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		var blogPost = await blogPostRepository.GetByIdAsync(id, cancellationToken);
+		if (blogPost == null)
+		{
+			return false;
+		}
+		await blogPostRepository.RemoveAsync(blogPost, cancellationToken);
+		return true;
 	}
 
-	public Task<BlogPost?> GetPostWithCommentsAsync(int id, CancellationToken cancellationToken = default)
+	public async Task<BlogPost?> GetPostWithCommentsAsync(int id, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		return await blogPostRepository.GetPostWithCommentsAsync(id, cancellationToken);
 	}
 
-	public Task<IEnumerable<BlogPost>> GetPostsByAuthor(int authorId, CancellationToken cancellationToken = default)
+	public async Task<IEnumerable<BlogPost>> GetPostsByAuthor(int authorId, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		return await blogPostRepository.GetPostsByAuthor(authorId, cancellationToken);
 	}
 
-	public Task<IEnumerable<BlogPost>> GetLatestPostsAsync(int count = 3, CancellationToken cancellationToken = default)
+	public async Task<IEnumerable<BlogPost>> GetLatestPostsAsync(int count = 3, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		return await blogPostRepository.GetLatestPostsAsync(count, cancellationToken);
 	}
 }
