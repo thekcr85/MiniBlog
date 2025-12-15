@@ -21,14 +21,15 @@ public class RepositoryBase<TEntity>(ApplicationDbContext applicationDbContext, 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
 	}
 
-    public void Update(TEntity entity)
+    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         entities.Update(entity);
-        applicationDbContext.SaveChanges();
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
 	}
 
-    public void Remove(TEntity entity)
+    public async Task RemoveAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         entities.Remove(entity);
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
     }
 }
