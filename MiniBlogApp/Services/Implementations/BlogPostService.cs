@@ -13,11 +13,6 @@ public class BlogPostService(IBlogPostRepository blogPostRepository) : IBlogPost
 
 	public async Task<BlogPost?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
 	{
-		if (id <= 0)
-		{
-			throw new ArgumentException("Invalid blog post ID.", nameof(id));
-		}
-
 		return await blogPostRepository.GetByIdAsync(id, cancellationToken);
 	}
 
