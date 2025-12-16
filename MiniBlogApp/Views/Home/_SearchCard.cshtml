@@ -5,7 +5,7 @@
         <h5 class="mb-0">Search Authors</h5>
     </div>
     <div class="card-body">
-        <form asp-action="Search" method="get" class="d-flex gap-2">
+        <form asp-controller="Author" asp-action="Search" method="get" class="d-flex gap-2">
             <input type="text" name="searchTerm" class="form-control form-control-sm" placeholder="Search by name or email..." value="@Model" />
             <button class="btn btn-sm btn-primary" type="submit">Search</button>
         </form>
