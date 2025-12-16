@@ -13,6 +13,15 @@ public class BlogPostRepository(ApplicationDbContext applicationDbContext) : Rep
 			.FirstOrDefaultAsync(bp => bp.Id == id, cancellationToken);
 	}
 
+	public async Task<IEnumerable<BlogPost>> GetAllWithAuthorAndCommentsAsync(CancellationToken cancellationToken = default)
+	{
+		return await applicationDbContext.BlogPosts
+			.Include(bp => bp.Author)
+			.Include(bp => bp.Comments)
+			.AsNoTracking()
+			.ToListAsync(cancellationToken);
+	}
+
 	public async Task<IEnumerable<BlogPost>> GetPostsByAuthor(int authorId, CancellationToken cancellationToken = default)
 	{
 		return await applicationDbContext.BlogPosts

@@ -14,8 +14,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+
+// Register BlogPost repository and service so BlogPostController can be activated
+builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+builder.Services.AddScoped<IBlogPostService, BlogPostService>();
 
 var app = builder.Build();
 

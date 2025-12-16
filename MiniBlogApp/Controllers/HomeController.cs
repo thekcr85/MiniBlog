@@ -20,7 +20,7 @@ namespace MiniBlogApp.Controllers
                 Email = a.Email,
                 CreatedAt = a.CreatedAt,
                 PostCount = a.BlogPosts?.Count ?? 0,
-                PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+                Posts = a.BlogPosts?.Select(p => new AuthorPostListItemViewModel { Id = p.Id, Title = p.Title }).ToList() ?? new List<AuthorPostListItemViewModel>()
             }).ToList();
 
             return View(authorListItems);
@@ -41,7 +41,7 @@ namespace MiniBlogApp.Controllers
                     Email = a.Email,
                     CreatedAt = a.CreatedAt,
                     PostCount = a.BlogPosts?.Count ?? 0,
-                    PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+                    Posts = a.BlogPosts?.Select(p => new AuthorPostListItemViewModel { Id = p.Id, Title = p.Title }).ToList() ?? new List<AuthorPostListItemViewModel>()
                 }).ToList();
             }
 
@@ -55,7 +55,7 @@ namespace MiniBlogApp.Controllers
                 Email = a.Email,
                 CreatedAt = a.CreatedAt,
                 PostCount = a.BlogPosts?.Count ?? 0,
-                PostTitles = a.BlogPosts?.Select(p => p.Title).ToList() ?? new List<string>()
+                Posts = a.BlogPosts?.Select(p => new AuthorPostListItemViewModel { Id = p.Id, Title = p.Title }).ToList() ?? new List<AuthorPostListItemViewModel>()
             }).ToList();
 
             // Pass both to view

@@ -8,11 +8,17 @@ public class BlogPostService(IBlogPostRepository blogPostRepository) : IBlogPost
 {
 	public async Task<IEnumerable<BlogPost>> GetAllAsync(CancellationToken cancellationToken = default)
 	{
-		return await blogPostRepository.GetAllAsync(cancellationToken);
+		// Ensure authors and comments are loaded for listing
+		return await blogPostRepository.GetAllWithAuthorAndCommentsAsync(cancellationToken);
 	}
 
 	public async Task<BlogPost?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
 	{
+		if (id <= 0)
+		{
+			throw new ArgumentException("Invalid blog post ID.", nameof(id));
+		}
+
 		return await blogPostRepository.GetByIdAsync(id, cancellationToken);
 	}
 

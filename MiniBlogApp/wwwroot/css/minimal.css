@@ -4,6 +4,13 @@
     --muted: #6c757d;
     --accent: #0d6efd; /* bootstrap primary */
     --card-bg: #fbfcfd;
+    --surface-shadow: 0 6px 18px rgba(18, 38, 63, 0.06);
+
+    /* Button palette tuned for minimal, elegant look */
+    --btn-primary: var(--accent);
+    --btn-info: #6c757d;      /* muted neutral */
+    --btn-warning: #ffb020;   /* warm accent */
+    --btn-danger: #e85a5a;    /* soft danger red */
 }
 
 body{
@@ -18,6 +25,7 @@ body{
     max-width: 980px;
 }
 
+/* Navbar */
 .navbar-brand{
     font-weight: 600;
     letter-spacing: -0.2px;
@@ -25,54 +33,210 @@ body{
 
 .navbar .nav-link{
     color: var(--muted); 
-    font-weight: 400;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
 }
 
 .navbar .nav-link:hover{
     color: var(--accent);
 }
 
+/* Cards */
 .card{
     border: 0;
     background: var(--card-bg);
-    box-shadow: 0 6px 18px rgba(18, 38, 63, 0.06);
+    box-shadow: var(--surface-shadow);
     border-radius: 10px;
 }
 
+.card-header{
+    border-radius: 10px 10px 0 0;
+    font-weight: 600;
+}
+
+/* Lists */
 .list-group-item{
     border: 0;
     padding-left: 0;
     padding-right: 0;
-}
-
-.footer{
-    margin-top: 60px;
     background: transparent;
 }
 
-h1.display-4{
+.list-group-item-action{ color: inherit; }
+
+/* Buttons - unified minimalist styles */
+.btn{
+    border-radius: 8px;
+    border: none;
+    box-shadow: none;
     font-weight: 600;
 }
 
-.btn-primary{
-    background-color: var(--accent);
-    border: none;
+.btn:focus{
+    box-shadow: 0 0 0 0.125rem rgba(13,110,253,0.12);
 }
+
+.btn-primary{
+    background-color: var(--btn-primary);
+    color: #fff;
+}
+
+.btn-primary:hover{ filter: brightness(0.96); }
+
+.btn-info{
+    background-color: var(--btn-info);
+    color: #fff;
+}
+.btn-info:hover{ filter: brightness(0.96); }
+
+.btn-warning{
+    background-color: var(--btn-warning);
+    color: #111;
+}
+.btn-warning:hover{ filter: brightness(0.96); }
+
+.btn-danger{
+    background-color: var(--btn-danger);
+    color: #fff;
+}
+.btn-danger:hover{ filter: brightness(0.96); }
 
 .btn-outline-secondary{
     border-radius: 8px;
-}
-
-.small-muted{
+    border: 1px solid #e6e9ee;
     color: var(--muted);
+    background: transparent;
 }
 
-/* Keep search input subtle */
-input.form-control{
+/* Tables */
+.table thead th{
+    background: rgba(13,110,253,0.08);
+    border-bottom: 0;
+    font-weight: 600;
+}
+
+.table tbody tr:hover{
+    background: rgba(13,110,253,0.03);
+}
+
+/* Forms */
+input.form-control, textarea.form-control, select.form-select{
     border-radius: 8px;
     border: 1px solid #e6e9ee;
 }
 
-a.list-group-item-action{
-    color: inherit;
+/* Footer */
+.footer{ margin-top: 60px; }
+
+/* Headings */
+h1.display-4{ font-weight: 600; }
+
+.small-muted{ color: var(--muted); }
+
+/* Home page specific theme — all blue */
+.home-theme{
+    --home-accent: #0b5ed7; /* deeper blue */
+    --home-card-bg: #f0f6ff;
+}
+
+.home-theme .card{
+    background: var(--home-card-bg);
+    box-shadow: 0 8px 24px rgba(11,94,215,0.06);
+}
+
+.home-theme .card-header{
+    background: var(--home-accent) !important;
+    color: #fff !important;
+}
+
+.home-theme .btn-primary{
+    background-color: var(--home-accent) !important;
+    border-color: var(--home-accent) !important;
+}
+
+.home-theme .navbar .nav-link:hover{ color: var(--home-accent); }
+
+.home-theme .table thead th{ background: rgba(11,94,215,0.12); }
+
+.home-theme .text-primary-subtle{ color: rgba(11,94,215,0.85); }
+
+select.form-select:focus, input.form-control:focus, textarea.form-control:focus{ box-shadow: 0 0 0 0.125rem rgba(13,110,253,0.12); }
+
+/* Details-specific adjustments */
+.details .list-group-item h6,
+.details .list-group-item .post-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.details .list-group-item small,
+.details .list-group-item .meta {
+    font-size: 0.8rem;
+}
+
+.details .card-body .list-group-item {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Prevent buttons from wrapping in details headers */
+.details .btn{
+    white-space: nowrap;
+}
+
+/* Make action buttons slightly smaller in details views */
+.details .btn-sm{
+    padding: 0.25rem 0.5rem;
+    font-size: 0.82rem;
+}
+
+/* List view adjustments: smaller fonts, compact action buttons, prevent wrapping */
+.list-view .table {
+    font-size: 0.95rem;
+}
+
+.list-view .table td,
+.list-view .table th {
+    vertical-align: middle;
+}
+
+.list-view .table td {
+    font-size: 0.9rem;
+}
+
+.list-view .text-truncate {
+    max-width: 320px;
+}
+
+.list-view .action-buttons a {
+    white-space: nowrap;
+}
+
+.list-view .btn-sm{
+    padding: 0.25rem 0.45rem;
+    font-size: 0.82rem;
+}
+
+/* Ensure icons and text fit */
+.list-view .btn .bi {
+    margin-right: 4px;
+    vertical-align: -0.125em;
+}
+
+/* View Posts toggle button styling */
+.view-posts-toggle{
+    min-width: 110px;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    font-weight: 600;
+}
+
+/* Slightly differentiate toggle from Create button */
+.view-posts-toggle.btn-primary{
+    background-color: #0b5ed7;
+}
+
+/* Ensure collapse row looks good */
+.collapse-row .card-body{
+    padding: 0.75rem 1rem;
 }

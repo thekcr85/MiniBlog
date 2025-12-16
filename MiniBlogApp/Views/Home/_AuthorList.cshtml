@@ -10,14 +10,14 @@
             </div>
             <p class="mb-1"><strong>Email:</strong> @author.Email</p>
             <p class="mb-1"><strong>Posts:</strong> <span class="badge bg-info">@author.PostCount</span></p>
-            @if (author.PostTitles.Any())
+            @if (author.Posts != null && author.Posts.Any())
             {
                 <div class="mt-2 small">
                     <strong>Posts:</strong>
                     <ul class="mb-0 ps-3">
-                        @foreach (var t in author.PostTitles.Take(3))
+                        @foreach (var p in author.Posts.Take(3))
                         {
-                            <li>@t</li>
+                            <li><a href="@Url.Action("Details", "BlogPost", new { id = p.Id })">@p.Title</a></li>
                         }
                     </ul>
                 </div>
