@@ -4,7 +4,7 @@
     ViewData["Title"] = "Authors";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 list-view">
     <div class="row mb-3">
         <div class="col-md-6">
             <h1>Authors</h1>
@@ -45,14 +45,15 @@
     }
     else
     {
+        <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Created</th>
                     <th class="text-center">Posts</th>
-                    <th>Post Titles</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -60,28 +61,20 @@
         @foreach (var author in Model)
         {
                 <tr>
-                    <td><strong>@author.FullName</strong></td>
-                    <td>@author.Email</td>
-                    <td>@author.CreatedAt.ToString("yyyy-MM-dd")</td>
-                    <td class="text-center">
+                    <td class="align-middle" style="width:120px;">
+                        <button class="btn btn-sm btn-primary view-posts-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-author-@author.Id" aria-expanded="false" aria-controls="collapse-author-@author.Id">
+                            View Posts
+                        </button>
+                    </td>
+                    <td class="align-middle">
+                        <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="text-decoration-none"><strong>@author.FullName</strong></a>
+                    </td>
+                    <td class="align-middle">@author.Email</td>
+                    <td class="align-middle">@author.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td class="text-center align-middle">
                         <span class="badge bg-primary">@author.PostCount</span>
                     </td>
-                    <td>
-                        @if (author.PostTitles.Any())
-                        {
-                            <ul class="mb-0 ps-3">
-                            @foreach (var title in author.PostTitles)
-                            {
-                                <li>@title</li>
-                            }
-                            </ul>
-                        }
-                        else
-                        {
-                            <span class="text-muted">No posts</span>
-                        }
-                    </td>
-                    <td class="text-center">
+                    <td class="text-center align-middle action-buttons">
                         <a href="@Url.Action("Details", "Author", new { id = author.Id })" 
                            class="btn btn-sm btn-info">View</a>
                         <a href="@Url.Action("Edit", "Author", new { id = author.Id })" 
@@ -90,8 +83,40 @@
                            class="btn btn-sm btn-danger ms-1">Delete</a>
                     </td>
                 </tr>
+                <tr class="collapse-row">
+                    <td colspan="6" class="p-0 border-0">
+                        <div class="collapse" id="collapse-author-@author.Id">
+                            <div class="card card-body mb-2">
+                                <h6 class="mb-2">Posts by @author.FullName</h6>
+                                @if (author.Posts != null && author.Posts.Any())
+                                {
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach (var post in author.Posts)
+                                        {
+                                            <li class="d-flex justify-content-between align-items-center py-1">
+                                                <div>
+                                                    <a href="@Url.Action("Details", "BlogPost", new { id = post.Id })">@post.Title</a>
+                                                </div>
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="@Url.Action("Details", "BlogPost", new { id = post.Id })" class="btn btn-sm btn-info">View</a>
+                                                    <a href="@Url.Action("Edit", "BlogPost", new { id = post.Id })" class="btn btn-sm btn-warning">Edit</a>
+                                                    <a href="@Url.Action("Delete", "BlogPost", new { id = post.Id })" class="btn btn-sm btn-danger">Delete</a>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="mb-0 text-muted">This author has no posts.</p>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
         }
             </tbody>
         </table>
+        </div>
     }
 </div>
