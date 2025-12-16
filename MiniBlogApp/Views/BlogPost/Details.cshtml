@@ -1,0 +1,46 @@
+@model BlogPostDetailViewModel
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<div class="container mt-4 details">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>@Model.Title</h1>
+            <p class="text-muted">by @Model.AuthorName on @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
+            <hr />
+
+            <h5>Summary</h5>
+            <p>@Model.Summary</p>
+
+            <h5>Content</h5>
+            <div class="mb-4">@Html.Raw(Model.Content)</div>
+
+            <h5>Comments (@Model.Comments.Count)</h5>
+            @if (!Model.Comments.Any())
+            {
+                <div class="alert alert-secondary">No comments yet.</div>
+            }
+            else
+            {
+                <ul class="list-group">
+                    @foreach (var c in Model.Comments)
+                    {
+                        <li class="list-group-item">
+                            <strong>@c.AuthorName</strong> <small class="text-muted">(@c.CreatedAt.ToString("yyyy-MM-dd"))</small>
+                            <p class="mb-0">@c.Content</p>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="col-md-2">
+            <div class="d-grid gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">Delete</a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
