@@ -1,0 +1,29 @@
+@model IEnumerable<AuthorListItemViewModel>
+
+<div class="card mb-3">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Latest Authors</h5>
+    </div>
+    <div class="card-body">
+        @if (Model == null || !Model.Any())
+        {
+            <p class="text-muted">No authors yet.</p>
+        }
+        else
+        {
+            <div class="list-group list-group-flush">
+                @foreach (var author in Model)
+                {
+                    <a href="@Url.Action("Details", "Author", new { id = author.Id })" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">@author.FullName</h6>
+                            <small>@author.CreatedAt.ToString("yyyy-MM-dd")</small>
+                        </div>
+                        <p class="mb-1 small text-muted">@author.Email</p>
+                        <span class="badge bg-dark">@author.PostCount posts</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
